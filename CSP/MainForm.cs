@@ -1,10 +1,11 @@
-﻿using Microsoft.VisualBasic;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,30 +24,42 @@ namespace CSP
         private void btnCheck_Click(object sender, EventArgs e)
         {
             string result = textBox1.Text;
-            DataSet ds = new DataSet();
-            using (SqlConnection conn = new SqlConnection(new dataBase().path))
+            try
             {
-                conn.Open();
-                string sql = "SELECT orderid FROM order WHERE stuid=" + textBox1.Text;
-                SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
-                adapter.Fill(ds, "order");
+                DataSet ds = new DataSet();
+                using (SqlConnection conn = new SqlConnection(new dataBase().path))
+                {
+                    conn.Open();
+                    string sql = "SELECT orderid FROM order WHERE stuid=" + textBox1.Text;
+                    SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
+                    adapter.Fill(ds, "order");
+                }
+                dataGridView1.DataSource = ds.Tables[0];
+            } catch
+            {
+                MessageBox.Show("문제가 발생했습니다.\n입력을 확인해주세요");
             }
-            dataGridView1.DataSource = ds.Tables[0];
 
         }
 
         private void btnAll_Click(object sender, EventArgs e)
         {
-            DataSet ds = new DataSet();
-            using (SqlConnection conn = new SqlConnection(new dataBase().path))
+            try
             {
-                conn.Open();
-                string sql = "SELECT * FROM order";
-                SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
-                adapter.Fill(ds, "order");
+                DataSet ds = new DataSet();
+                using (SqlConnection conn = new SqlConnection(new dataBase().path))
+                {
+                    conn.Open();
+                    string sql = "SELECT * FROM order";
+                    SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
+                    adapter.Fill(ds, "order");
+                }
+                dataGridView1.DataSource = ds.Tables[0];
+                type = 1;
+            } catch
+            {
+                MessageBox.Show("DB에 테이블이 정확하게 있는지 확인해주세요");
             }
-            dataGridView1.DataSource = ds.Tables[0];
-            type = 1;
         }
 
         private void btnTime_Click(object sender, EventArgs e)
@@ -67,7 +80,7 @@ namespace CSP
                 MessageBox.Show("제대로 입력한게 맞으신가요?\n확인이 필요합니다.");
                 return;
             }
-
+/*
             result = Interaction.InputBox("조회할 주를 입력하세요", "학생 노트북 대여 관리 시스템", "1~4");
             int refus = 1;
             try // 숫자를 입력한게 맞는지 확인
@@ -84,35 +97,48 @@ namespace CSP
             {
                 MessageBox.Show("제대로 입력한게 맞으신가요?\n확인이 필요합니다.");
                 return;
-            }
-            string search_dt = month + "." + refus;
+            }*/
+            string search_dt = month + ".%";
 
-            DataSet ds = new DataSet();
-            using (SqlConnection conn = new SqlConnection(new dataBase().path))
+            try
             {
-                conn.Open();
-                string sql = "SELECT * FROM order WHERE date=" + search_dt + ";";
-                SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
-                adapter.Fill(ds, "order");
+                DataSet ds = new DataSet();
+                using (SqlConnection conn = new SqlConnection(new dataBase().path))
+                {
+                    conn.Open();
+                    string sql = "SELECT * FROM order WHERE date LIKE '" + search_dt + "';";
+                    SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
+                    adapter.Fill(ds, "order");
+                }
+                dataGridView1.DataSource = ds.Tables[0];
+                type = 1;
+            } catch
+            {
+                MessageBox.Show("문제가 발생했습니다.\nDB를 확인해주세요.");
             }
-            dataGridView1.DataSource = ds.Tables[0];
-            type = 1;
         }
 
         private void btnName_Click(object sender, EventArgs e)
         {
             string result = Interaction.InputBox("조회할 학생의 이름을 입력해주세요", "학생 노트북 대여 관리 시스템", "홍길동");
 
-            DataSet ds = new DataSet();
-            using (SqlConnection conn = new SqlConnection(new dataBase().path))
+            try
             {
-                conn.Open();
-                string sql = "SELECT * FROM order WHERE name=" + result + ";";
-                SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
-                adapter.Fill(ds, "order");
+                DataSet ds = new DataSet();
+                using (SqlConnection conn = new SqlConnection(new dataBase().path))
+                {
+                    conn.Open();
+                    string sql = "SELECT * FROM order WHERE name=" + result + ";";
+                    SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
+                    adapter.Fill(ds, "order");
+                }
+                dataGridView1.DataSource = ds.Tables[0];
+                type = 1;
+            } catch
+            {
+                MessageBox.Show("문제가 발생했습니다.\n조회에 실패했습니다.");
             }
-            dataGridView1.DataSource = ds.Tables[0];
-            type = 1;
+            
         }
 
         private void btn_add_Click(object sender, EventArgs e)
@@ -237,16 +263,23 @@ namespace CSP
                 MessageBox.Show("데이터 테이블에서 아이템을 선택하세요.");
                 return;
             }
-            using (SqlConnection conn = new SqlConnection(new dataBase().path))
+            try
             {
-                conn.Open();
-                SqlCommand command = new SqlCommand();
-                command.Connection = conn;
-                command.CommandText = "DELETE FROM student WHERE stuid = " + stuid;
-                command.ExecuteNonQuery();
+                using (SqlConnection conn = new SqlConnection(new dataBase().path))
+                {
+                    conn.Open();
+                    SqlCommand command = new SqlCommand();
+                    command.Connection = conn;
+                    command.CommandText = "DELETE FROM student WHERE stuid = " + stuid;
+                    command.ExecuteNonQuery();
 
-                stuList_Click(null, null);
+                    stuList_Click(null, null);
+                }
+            } catch
+            {
+                MessageBox.Show("다른 DB에서 기본키로 사용된 KEY는 제거가 불가능합니다.");
             }
+            
         }
 
         private void notList_Click(object sender, EventArgs e)
@@ -305,17 +338,23 @@ namespace CSP
                 MessageBox.Show("데이터 테이블에서 아이템을 선택하세요.");
                 return;
             }
-            
-            using (SqlConnection conn = new SqlConnection(new dataBase().path))
+            try
             {
-                conn.Open();
-                SqlCommand command = new SqlCommand();
-                command.Connection = conn;
-                command.CommandText = "DELETE FROM order WHERE notebookid = " + noteid;
-                command.ExecuteNonQuery();
+                using (SqlConnection conn = new SqlConnection(new dataBase().path))
+                {
+                    conn.Open();
+                    SqlCommand command = new SqlCommand();
+                    command.Connection = conn;
+                    command.CommandText = "DELETE FROM order WHERE notebookid = " + noteid;
+                    command.ExecuteNonQuery();
 
-                notList_Click(null, null);
+                    notList_Click(null, null);
+                }
+            } catch
+            {
+                MessageBox.Show("다른 DB에서 기본키로 사용된 KEY는 제거가 불가능합니다.");
             }
+            
         }
     }
 }
