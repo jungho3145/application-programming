@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,10 +21,10 @@ namespace CSP
 
         private void login_Load(object sender, EventArgs e)
         {
-            getIp.Text = getDB.ip;
-            getId.Text = getDB.db_id;
-            getPw.Text = getDB.db_pw;
-            getDBname.Text = getDB.db_name;
+            getIp.Text = getDB.returnObject("ip");
+            getId.Text = getDB.returnObject("id");
+            getPw.Text = getDB.returnObject("pw");
+            getDBname.Text = getDB.returnObject("name");
         }
 
         private void loginDB_Click_1(object sender, EventArgs e)
