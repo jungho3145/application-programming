@@ -20,3 +20,14 @@ D:\Programs\CSP\CSP\obj\Debug\CSP.login.resources
 \\Mac\Home\Desktop\application-programming\CSP\obj\Debug\CSP.csproj.CoreCompileInputs.cache
 \\Mac\Home\Desktop\application-programming\CSP\obj\Debug\CSP.exe
 \\Mac\Home\Desktop\application-programming\CSP\obj\Debug\CSP.pdb
+\\Mac\Home\application-programming\CSP\bin\Debug\CSP.exe.config
+\\Mac\Home\application-programming\CSP\bin\Debug\CSP.exe
+\\Mac\Home\application-programming\CSP\bin\Debug\CSP.pdb
+\\Mac\Home\application-programming\CSP\obj\Debug\CSP.csprojAssemblyReference.cache
+\\Mac\Home\application-programming\CSP\obj\Debug\CSP.login.resources
+\\Mac\Home\application-programming\CSP\obj\Debug\CSP.MainForm.resources
+\\Mac\Home\application-programming\CSP\obj\Debug\CSP.Properties.Resources.resources
+\\Mac\Home\application-programming\CSP\obj\Debug\CSP.csproj.GenerateResource.cache
+\\Mac\Home\application-programming\CSP\obj\Debug\CSP.csproj.CoreCompileInputs.cache
+\\Mac\Home\application-programming\CSP\obj\Debug\CSP.exe
+\\Mac\Home\application-programming\CSP\obj\Debug\CSP.pdb
